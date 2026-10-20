@@ -2,7 +2,7 @@
 // Stratégie « réseau d'abord » : les données viennent toujours du serveur ; le cache ne sert
 // qu'à afficher l'interface si la connexion est coupée. Les appels /api ne sont JAMAIS mis en cache
 // (données de santé).
-const CACHE = 'materna-interface-v1';
+const CACHE = 'materna-interface-v2';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => {
