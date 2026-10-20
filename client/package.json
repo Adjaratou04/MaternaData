@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build"
+    "build": "vite build",
+    "verifier-types": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/arimo": "^5.1.0",

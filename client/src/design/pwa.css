@@ -102,3 +102,12 @@ html[data-espace="patiente"] body { background: #2A0912; }
 /* Écran de chargement (vérification de la session auprès du serveur) */
 .pwa-chargement { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
 .pwa-chargement .pa-spinner { width: 34px; height: 34px; border-color: rgba(200, 24, 73, .2); border-top-color: var(--carmin); }
+
+/* Écran de lancement (logo) */
+.pwa-logo { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #FFFFFF; padding: 24px; }
+.pwa-logo-centre { display: flex; flex-direction: column; align-items: center; gap: 18px; animation: pwa-logo-entree .7s ease-out both; }
+.pwa-logo-centre p { margin: 0; color: var(--gris); font-size: var(--t-sm); letter-spacing: .02em; }
+.pwa-logo-barre { position: fixed; bottom: 56px; width: 120px; height: 4px; border-radius: 4px; background: var(--nacre-pale); overflow: hidden; }
+.pwa-logo-barre i { display: block; height: 100%; width: 40%; border-radius: 4px; background: var(--carmin); animation: pwa-logo-charge 1.1s ease-in-out infinite; }
+@keyframes pwa-logo-entree { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes pwa-logo-charge { from { transform: translateX(-110%); } to { transform: translateX(280%); } }

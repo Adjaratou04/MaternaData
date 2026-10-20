@@ -40,7 +40,7 @@ const fmtJourMois = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'l
 const fmtCourt = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short' });
 const prochainRdv = () => rdvP001.filter((r) => joursEntre(aujourdhui(), r.date) >= 0 && r.statut !== 'annule').sort((a, b) => a.date.getTime() - b.date.getTime());
 
-export function AppPatiente({ ecranInitial = 'bienvenue', onChangerEspace, onDeconnexion, onCarnetRelie, etapeInscription, toastInitial }: { ecranInitial?: NomEcran; onChangerEspace?: () => void; onDeconnexion?: () => void; onCarnetRelie?: () => void; etapeInscription?: number; toastInitial?: string }) {
+export function AppPatiente({ ecranInitial = 'bienvenue', onChangerEspace, onDeconnexion, onCarnetRelie, onConnecte, etapeInscription, toastInitial }: { ecranInitial?: NomEcran; onChangerEspace?: () => void; onDeconnexion?: () => void; onCarnetRelie?: () => void; onConnecte?: (s: { espace: 'pro' | 'patiente' | null; relie?: boolean }) => void; etapeInscription?: number; toastInitial?: string }) {
   const [ecran, setEcran] = useState<Ecran>({ nom: ecranInitial });
   const [notifs, setNotifs] = useState<Notification[]>(() => [...notificationsP001]);
   const [toast, setToast] = useState<string | null>(toastInitial ?? null);
@@ -57,8 +57,8 @@ export function AppPatiente({ ecranInitial = 'bienvenue', onChangerEspace, onDec
     <div className="pa">
       <div className="pa-vue" key={ecran.nom + (ecran.id ?? '') + (ecran.sa ?? '')}>
         {ecran.nom === 'bienvenue' && <Bienvenue aller={aller} onChangerEspace={onChangerEspace} />}
-        {ecran.nom === 'connexion' && <Connexion aller={aller} />}
-        {ecran.nom === 'inscription' && <Inscription etapeInitiale={etapeInscription} retour={() => (onDeconnexion ? onDeconnexion() : aller({ nom: 'bienvenue' }))} terminer={() => { if (onCarnetRelie) onCarnetRelie(); else { aller({ nom: 'accueil' }); setToast('Carnet relié'); } }} />}
+        {ecran.nom === 'connexion' && <Connexion aller={aller} onConnecte={onConnecte} />}
+        {ecran.nom === 'inscription' && <Inscription etapeInitiale={etapeInscription} retour={() => (etapeInscription && onDeconnexion ? onDeconnexion() : aller({ nom: 'bienvenue' }))} terminer={() => { if (onCarnetRelie) onCarnetRelie(); else { aller({ nom: 'accueil' }); setToast('Carnet relié'); } }} />}
         {ecran.nom === 'accueil' && <Accueil aller={aller} notifs={notifs} signaler={setToast} />}
         {ecran.nom === 'grossesse' && <Grossesse aller={aller} saInitiale={ecran.sa} />}
         {ecran.nom === 'carnet' && <Carnet aller={aller} section={ecran.section} />}
@@ -112,18 +112,23 @@ function Bienvenue({ aller, onChangerEspace }: { aller: Aller; onChangerEspace?:
 }
 
 /* ================================================================== */
-function Connexion({ aller }: { aller: Aller }) {
+function Connexion({ aller, onConnecte }: { aller: Aller; onConnecte?: (s: { espace: 'pro' | 'patiente' | null; relie?: boolean }) => void }) {
   const [voir, setVoir] = useState(false);
-  const [ident, setIdent] = useState('mariama.sow@demo.sn');
-  const [mdp, setMdp] = useState('Demo2026!');
+  const [ident, setIdent] = useState('');
+  const [mdp, setMdp] = useState('');
   const [erreur, setErreur] = useState<string | null>(null);
   const [chargement, setChargement] = useState(false);
-  const valider = (e: React.FormEvent) => {
+  const valider = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ident.trim() || !mdp) { setErreur('Renseignez votre identifiant et votre mot de passe.'); return; }
-    if (mdp !== 'Demo2026!') { setErreur('Mot de passe incorrect. Pour la démonstration, utilisez Demo2026!'); return; }
     setErreur(null); setChargement(true);
-    setTimeout(() => aller({ nom: 'accueil' }), 750);
+    try {
+      const s = await api.post<{ espace: 'pro' | 'patiente' | null; relie?: boolean }>('/auth/connexion', { identifiant: ident.trim(), mdp });
+      if (onConnecte) onConnecte(s); else aller({ nom: 'accueil' });
+    } catch (x) {
+      setErreur((x as Error).message || 'Le serveur ne répond pas. Réessayez.');
+      setChargement(false);
+    }
   };
   return (
     <form className="pa-cnx" onSubmit={valider} noValidate>
@@ -146,7 +151,7 @@ function Connexion({ aller }: { aller: Aller }) {
       </label>
       {erreur && <p className="pa-erreur" role="alert"><AlertTriangle size={15} />{erreur}</p>}
       <button type="button" className="pa-lien pa-oubli">Mot de passe oublié ?</button>
-      <div className="pa-demo-note"><Info size={15} /><span>Compte de démonstration pré-rempli : patiente fictive Mariama Sow (P001).</span></div>
+      <div className="pa-demo-note"><Info size={15} /><span>Démonstration : <button type="button" className="pa-lien" onClick={() => { setIdent('mariama.sow@demo.sn'); setMdp('Demo2026!'); setErreur(null); }}>utiliser le compte fictif de Mariama Sow</button></span></div>
       <button className="btn btn-primaire btn-bloc pa-btn-xl" disabled={chargement}>{chargement ? <span className="pa-spinner" /> : 'Se connecter'}</button>
     </form>
   );
