@@ -101,3 +101,8 @@ function Pwa() {
 }
 
 createRoot(document.getElementById('root')!).render(<StrictMode><Pwa /></StrictMode>);
+
+// Rend l'application installable sur le téléphone (« Installer l'application » / « Sur l'écran d'accueil »)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+}
