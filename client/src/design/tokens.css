@@ -1,0 +1,121 @@
+/* Materna Data — design system, d'après la charte graphique d'Adjaratou Fatou Deme.
+   Univers : chaud, moderne, naturel. Le bordeaux porte la structure et la confiance,
+   le carmin signale l'action, les roses (poudré, doux, nacré, corail) composent les surfaces et les dégradés. */
+:root {
+  color-scheme: light;
+  /* Palette de la charte */
+  --poudre: #ff90a3;
+  --corail: #ff758f;
+  --nacre: #ffccd5;
+  --bordeaux: #570d22;
+  --doux: #ffb0be;
+  --carmin: #c81849;
+
+  /* Dérivés */
+  --bordeaux-2: #7A1733;
+  --carmin-fonce: #A3123B;
+  --nacre-pale: #FFEBEF;
+  --fond: #FFFFFF;
+  --surface: #FFFFFF;
+  --texte: #3A1621;
+  --gris: #7D5F68;
+  --gris-clair: #B49AA2;
+  --bordure: #F2DCE1;
+  --bordure-douce: #F8ECEF;
+  --ombre: 0 1px 2px rgba(87, 13, 34, .05), 0 8px 24px rgba(87, 13, 34, .07);
+  --ombre-forte: 0 2px 6px rgba(87, 13, 34, .08), 0 18px 40px rgba(87, 13, 34, .14);
+  --grad-rose: linear-gradient(#FFEBEF, #FFEBEF);
+  --grad-bordeaux: linear-gradient(150deg, #741431 0%, #570d22 55%, #3F0818 100%);
+  --grad-carmin: linear-gradient(#c81849, #c81849);
+
+  /* États (distincts de l'accent) */
+  --ok: #1E7A50;
+  --ok-fond: #E5F4EC;
+  --alerte: #9A5800;
+  --alerte-fond: #FDF1DD;
+  --critique: #B42318;
+  --critique-fond: #FDECEA;
+  --info-fond: #F7E9ED;
+
+  /* Alias de compatibilité (anciens noms) */
+  --canard: var(--bordeaux);
+  --canard-clair: var(--nacre-pale);
+  --framboise: var(--carmin);
+  --framboise-fonce: var(--carmin-fonce);
+  --rose-poudre: var(--nacre-pale);
+  --blanc-casse: var(--fond);
+
+  /* Typographie de la charte */
+  --police: 'Arimo', 'Helvetica Neue', Arial, sans-serif;
+  --police-titre: 'Ubuntu', 'Segoe UI', system-ui, sans-serif;
+  --t-xs: .75rem;
+  --t-sm: .8125rem;
+  --t-base: .9375rem;
+  --t-md: 1.0625rem;
+  --t-lg: 1.375rem;
+  --t-xl: 1.75rem;
+
+  /* Formes */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--police);
+  font-size: var(--t-base);
+  color: var(--texte);
+  background: var(--fond);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; font-family: var(--police-titre); font-weight: 700; text-wrap: balance; letter-spacing: -.01em; }
+p { margin: 0; line-height: 1.5; }
+button, input { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--carmin); outline-offset: 2px; }
+
+/* Boutons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  height: 46px; padding: 0 1.2rem; border-radius: var(--r-md);
+  font-family: var(--police-titre); font-weight: 500; font-size: var(--t-base); border: 1.5px solid transparent; cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s, transform .12s, box-shadow .18s;
+}
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-primaire { background: var(--carmin); color: #fff; box-shadow: 0 6px 16px rgba(200, 24, 73, .28); }
+.btn-primaire:hover { background: var(--carmin-fonce); }
+.btn-secondaire { background: transparent; color: var(--bordeaux); border-color: var(--bordeaux); }
+.btn-secondaire:hover { background: var(--nacre-pale); }
+.btn-canard, .btn-bordeaux { background: var(--bordeaux); color: #fff; }
+.btn-canard:hover, .btn-bordeaux:hover { background: #3F0818; }
+.btn-discret { background: var(--surface); color: var(--bordeaux); border-color: var(--bordure); }
+.btn-discret:hover { border-color: var(--doux); background: var(--fond); }
+.btn-sm { height: 36px; padding: 0 .85rem; font-size: var(--t-sm); border-radius: var(--r-sm); }
+.btn-bloc { width: 100%; }
+
+/* Pastilles d'état */
+.pastille {
+  display: inline-flex; align-items: center; gap: .35rem; padding: .22rem .62rem;
+  border-radius: var(--r-full); font-size: var(--t-xs); font-weight: 600; white-space: nowrap;
+}
+.pastille::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.p-ok { background: var(--ok-fond); color: var(--ok); }
+.p-alerte { background: var(--alerte-fond); color: var(--alerte); }
+.p-critique { background: var(--critique-fond); color: var(--critique); }
+.p-info { background: var(--info-fond); color: var(--bordeaux); }
+.p-rose { background: var(--nacre-pale); color: var(--carmin-fonce); }
+
+/* Badge simulation / démonstration */
+.badge-demo {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .55rem;
+  border-radius: 8px; font-size: .6875rem; font-weight: 700; letter-spacing: .02em;
+  background: var(--alerte-fond); color: var(--alerte); white-space: nowrap;
+}
+
+.carte { background: var(--surface); border: 1px solid var(--bordure-douce); border-radius: var(--r-lg); box-shadow: var(--ombre); }
+.chiffres { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

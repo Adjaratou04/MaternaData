@@ -1,0 +1,104 @@
+/* ================= Version installable (PWA) ================= */
+html, body, #root { height: 100%; }
+body { overscroll-behavior: none; }
+html[data-espace="patiente"] body { background: #2A0912; }
+
+/* Écran de choix */
+.pwa-choix { min-height: 100dvh; display: grid; place-items: center; padding: calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+  background: radial-gradient(120% 70% at 50% 0%, #FFE1E8 0%, #FFF1F4 45%, #FFF8F9 100%); }
+.pwa-choix-carte { width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.pwa-choix h1 { font-size: 1.6rem; color: var(--bordeaux); margin-top: 6px; }
+.pwa-choix-carte > p { color: var(--gris); max-width: 34ch; }
+.pwa-choix-liste { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.pwa-espace { display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px; border-radius: 22px; border: 0; cursor: pointer; text-align: left; font-family: inherit; color: var(--texte);
+  background: rgba(255,255,255,.85); box-shadow: 0 10px 30px rgba(87,13,34,.1), inset 0 0 0 1px rgba(255,255,255,.9); transition: transform .15s; }
+.pwa-espace:active { transform: scale(.98); }
+.pwa-espace > svg { color: var(--gris-clair); }
+.pwa-espace-icone { width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; color: #fff; flex-shrink: 0; }
+.pwa-espace-patiente .pwa-espace-icone { background: var(--grad-carmin); box-shadow: 0 8px 18px rgba(200,24,73,.28); }
+.pwa-espace-pro .pwa-espace-icone { background: linear-gradient(135deg, #E0466E, #570D22); box-shadow: 0 8px 18px rgba(87,13,34,.28); }
+.pwa-espace-texte { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.pwa-espace-texte strong { font-family: var(--police-titre); font-size: 1.05rem; color: var(--bordeaux); }
+.pwa-espace-texte em { font-style: normal; font-size: .8rem; color: var(--gris); }
+.pwa-choix-note { display: flex; align-items: center; gap: 6px; font-size: .72rem; color: var(--gris); margin-top: 4px; }
+
+/* Application patiente en plein écran (sur ordinateur : colonne au format téléphone) */
+.pwa-patiente { height: 100dvh; display: flex; justify-content: center; background: #2A0912; }
+.pwa-patiente-cadre { width: 100%; max-width: 480px; height: 100%; position: relative; overflow: hidden; background: var(--fond); }
+.pwa-patiente .pa-vue { padding-top: env(safe-area-inset-top); }
+.pwa-patiente .pa-nav { bottom: calc(14px + env(safe-area-inset-bottom)); }
+.pa-bv3-espace { align-self: center; margin-top: 4px; font-size: .78rem; background: none; border: 0; cursor: pointer; color: var(--carmin); font-weight: 700; font-family: inherit; }
+@media (min-width: 600px) { .pwa-patiente { align-items: center; } .pwa-patiente-cadre { height: min(100dvh, 900px); border-radius: 28px; box-shadow: 0 30px 80px rgba(0,0,0,.35); } }
+
+/* Espace professionnel en plein écran */
+.pwa-pro { min-height: 100dvh; background: #FAF8F9; }
+.pwa-pro .pro { min-height: 100dvh; }
+.pwa-pro .pro-barre { position: sticky; top: 0; height: 100dvh; overflow-y: auto; }
+.pro-changer { margin-top: auto; background: rgba(255,255,255,.08); color: #FBE3E8; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 9px 12px; font-family: inherit; font-size: var(--t-sm); font-weight: 600; cursor: pointer; text-align: left; }
+.pro-changer:hover { background: rgba(255,255,255,.14); }
+.pro-changer + .pro-barre-pied { margin-top: 0; }
+@media (max-width: 960px) {
+  .pwa-pro .pro-barre { display: none; }
+  .pwa-pro .pro-principal { min-height: 100dvh; padding-top: env(safe-area-inset-top); }
+  .pwa-pro .pro-zone { flex: 1; }
+}
+@media (max-width: 960px) {
+  .pwa-pro .pro-nav-mobile { position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; }
+  .pwa-pro .pro-principal { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+.pwa-pro { overflow-x: hidden; }
+.pwa-patiente .pa .pa-nav { bottom: 0; }
+
+
+/* ================= Connexion unique ================= */
+.cx { min-height: 100dvh; display: grid; grid-template-columns: 1fr; background: #FAF8F9; }
+.cx-marque { display: none; }
+.cx-zone { display: flex; justify-content: center; align-items: flex-start; padding: calc(28px + env(safe-area-inset-top)) 20px 32px; }
+.cx-form { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
+.cx-logo-mobile { display: flex; justify-content: center; margin-bottom: 4px; }
+.cx-form h1 { font-size: 1.7rem; color: var(--bordeaux); }
+.cx-sous { color: var(--gris); font-size: .86rem; line-height: 1.45; margin-top: -6px; }
+.cx-champ { display: flex; flex-direction: column; gap: 6px; font-size: .78rem; font-weight: 700; color: var(--texte); }
+.cx-champ input { height: 50px; border-radius: 14px; border: 1.5px solid #EADCE1; padding: 0 14px; font-size: 1rem; font-family: inherit; background: #fff; width: 100%; color: var(--texte); }
+.cx-champ input:focus { outline: none; border-color: var(--carmin); box-shadow: 0 0 0 4px rgba(200,24,73,.1); }
+.cx-mdp { position: relative; }
+.cx-mdp button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--gris); padding: 8px; cursor: pointer; }
+.cx-btn { height: 52px; border-radius: 14px; margin-top: 4px; }
+.cx-creer { text-align: center; font-size: .85rem; color: var(--gris); }
+.cx-demo { margin-top: 10px; border: 1px dashed #E9C9D2; border-radius: 16px; padding: 12px; background: #FFFBFC; }
+.cx-demo > p { font-size: .75rem; font-weight: 700; color: var(--bordeaux); display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.cx-demo > p span { font-weight: 600; color: var(--gris); font-family: ui-monospace, Menlo, monospace; }
+.cx-demo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.cx-demo button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 6px; border: 0; background: none; cursor: pointer; font-family: inherit; text-align: left; border-radius: 10px; }
+.cx-demo button:hover { background: #FFF1F4; }
+.cx-demo strong { font-size: .84rem; color: var(--texte); }
+.cx-demo em { flex: 1; font-style: normal; font-size: .76rem; color: var(--gris); text-align: right; }
+.cx-demo svg { color: var(--gris-clair); }
+@media (min-width: 1000px) {
+  .cx { grid-template-columns: minmax(380px, 44%) 1fr; }
+  .cx-marque { display: flex; flex-direction: column; justify-content: space-between; padding: 48px; color: #fff; background: radial-gradient(120% 90% at 0% 0%, #8E1638 0%, #570D22 55%, #3E0918 100%); }
+  .cx-marque-texte h2 { font-size: 1.9rem; line-height: 1.25; max-width: 18ch; color: #fff; }
+  .cx-marque-texte ul { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-direction: column; gap: 14px; }
+  .cx-marque-texte li { display: flex; align-items: center; gap: 12px; color: #FBE3E8; font-size: .95rem; }
+  .cx-marque-texte li svg { color: #FF90A3; }
+  .cx-marque-pied { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: #E9B9C6; }
+  .cx-zone { align-items: center; padding: 40px; }
+  .cx-logo-mobile { display: none; }
+}
+
+/* Sur téléphone, laisser de la place sous le bouton Assistant */
+.pa-vue:has(.pa-fab) .pa-ecran { padding-bottom: 80px; }
+
+/* Espace patiente : application mobile uniquement. Sur un grand écran, aperçu au format téléphone. */
+.pa-fab span { display: none; }
+.pa-fab { padding: 0; width: 52px; justify-content: center; }
+.pwa-note-mobile { display: none; }
+@media (min-width: 600px) {
+  .pwa-patiente { flex-direction: column; gap: 14px; }
+  .pwa-note-mobile { display: flex; align-items: center; gap: 8px; color: #F6D5DD; font-size: .82rem; }
+}
+@media (min-width: 600px) { .pwa-patiente-cadre { height: min(calc(100dvh - 72px), 860px); } }
+
+/* Écran de chargement (vérification de la session auprès du serveur) */
+.pwa-chargement { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.pwa-chargement .pa-spinner { width: 34px; height: 34px; border-color: rgba(200, 24, 73, .2); border-top-color: var(--carmin); }

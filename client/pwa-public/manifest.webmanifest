@@ -1,0 +1,23 @@
+{
+  "name": "Materna Data",
+  "short_name": "Materna",
+  "description": "Suivi de la grossesse et de l’enfant, partagé entre la patiente et ses soignants. Prototype académique, données fictives.",
+  "lang": "fr",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFFFFF",
+  "theme_color": "#c81849",
+  "categories": ["health", "medical"],
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Espace patiente", "url": "./index.html#/patiente", "icons": [{ "src": "icones/icone-192.png", "sizes": "192x192" }] },
+    { "name": "Espace professionnel", "url": "./index.html#/pro", "icons": [{ "src": "icones/icone-192.png", "sizes": "192x192" }] }
+  ]
+}
