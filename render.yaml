@@ -1,0 +1,32 @@
+# Déploiement sur Render (https://render.com) : un seul service web Node.js.
+# La base PostgreSQL est hébergée sur Neon (https://neon.tech) : collez son adresse dans DATABASE_URL.
+services:
+  - type: web
+    name: materna-data
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/sante
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        sync: false          # à renseigner : adresse de connexion Neon
+      - key: JWT_SECRET
+        generateValue: true  # secret de signature des sessions, généré par Render
+      - key: DEMO_MODE
+        value: "true"
+      - key: SMS_FOURNISSEUR
+        value: demo          # passez à twilio une fois les clés Twilio renseignées
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM
+        sync: false
+      - key: TELEPHONE_DEMO
+        sync: false          # facultatif : votre numéro, pour recevoir le SMS avec le dossier de Mariama Sow
